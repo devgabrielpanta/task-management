@@ -1,15 +1,11 @@
 import type { Attachment } from "@models/attachments";
 import type { TId } from "../../types/globals";
-import type { ICreateTask, ITask, ITaskBase, TUpdateTask } from "@models/tasks";
+import type { ICreateTask } from "@models/tasks";
 import type { TTaskCategory, TTaskPriority, TTaskStatus } from "utils";
 import { TaskCategory, TaskPriority, TaskStatus } from "utils";
+import { BaseEntity } from "@models/base-entity";
 
-export class Task implements ITask {
-    // BaseEntity members
-    public id: TId;
-    public createdAt: Date;
-    public updatedAt: Date;
-    // Task members
+export class Task extends BaseEntity {
     private title: string;
     private category: TTaskCategory;
     private status: TTaskStatus;
@@ -21,15 +17,13 @@ export class Task implements ITask {
     private attachments: Attachment[] = [];
 
     constructor(params: ICreateTask) {
+        super();
         this.title = params.title;
         this.category = params.category;
         this.status = params.status;
         this.priority = params.priority;
         this.deadline = params.deadline;
         this.tags = params.tags;
-        this.id = new Date().getTime().toString();
-        this.createdAt = new Date();
-        this.updatedAt = new Date();
     }
 
     // ###########################################################
@@ -43,30 +37,6 @@ export class Task implements ITask {
 
     public detachFile(attachmentId: TId): void {
         this.attachments = this.attachments.filter(att => att.id !== attachmentId);
-        this.updatedAt = new Date();
-    }
-
-    public getTask(): ITaskBase {
-        return {
-            id: this.id,
-            createdAt: this.createdAt,
-            updatedAt: this.updatedAt,
-            title: this.title,
-            category: this.category,
-            status: this.status,
-            priority: this.priority,
-            deadline: this.deadline,
-            tags: this.tags,
-            completed: this.completed,
-            completedAt: this.completedAt,
-            attachments: this.attachments,
-        };
-    }
-
-    public updateTask(updatedTask: Partial<TUpdateTask>): void {
-        for (const key in updatedTask) {
-            (this as any)[key] = (updatedTask as any)[key];
-        }
         this.updatedAt = new Date();
     }
 

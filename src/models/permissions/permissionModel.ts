@@ -13,10 +13,11 @@ const managersAndAdmins = [UserRole.ADMIN, UserRole.MANAGER];
 // ###########################################################
 export const taskPermissions: PermissionMap<ITaskActions> = {
     // CRUD methods
+    get: allUsers,
+    getId: allUsers,
+    update: membersOnly,
     attachFile: membersOnly,
     detachFile: membersOnly,
-    getTask: allUsers,
-    updateTask: membersOnly,
     handleQuery: allUsers,
 
     // Status methods
@@ -46,7 +47,8 @@ export const taskPermissions: PermissionMap<ITaskActions> = {
 // ###########################################################
 export const taskListPermissions: PermissionMap<ITaskListActions> = {
     // GET TASKS METHODS
-    getAllTasks: allUsers,
+    getAll: allUsers,
+    getById: allUsers,
     getExpiredTasks: allUsers,
     getCompletedTasks: allUsers,
     getPendingTasks: allUsers,
@@ -55,9 +57,9 @@ export const taskListPermissions: PermissionMap<ITaskListActions> = {
     queryTasks: allUsers,
 
     // CREATE, UPDATE, DELETE METHODS
-    addTask: membersOnly,
-    removeTask: membersOnly,
-    updateTask: membersOnly,
+    add: membersOnly,
+    delete: membersOnly,
+    update: membersOnly,
     cleanCompletedTasks: managersAndAdmins,
     attachFile: membersOnly,
     detachFile: membersOnly,

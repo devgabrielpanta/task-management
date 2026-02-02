@@ -1,13 +1,13 @@
+import type { IBaseListActions } from "types/globals";
 import type { Task, ICreateTask, TUpdateTask } from "@models/tasks";
 import { Attachment } from "@models/attachments";
 import type { TTaskPriority, TTaskStatus } from "utils";
 
-export interface ITaskListActions {
+export interface ITaskListActions extends IBaseListActions<Task> {
     // ###########################################################
     //                  GET TASKS METHODS
     // ###########################################################
 
-    getAllTasks(): Task[];
     getExpiredTasks(): Task[];
     getCompletedTasks(): Task[];
     getPendingTasks(): Task[];
@@ -19,9 +19,6 @@ export interface ITaskListActions {
     //                CREATE, UPDATE, DELETE METHODS
     // ###########################################################
 
-    addTask(params: ICreateTask): void;
-    removeTask(taskId: string): void;
-    updateTask(taskId: string, updatedTask: TUpdateTask): void;
     cleanCompletedTasks(): void;
     attachFile(attachment: Attachment, taskId: string): void;
     detachFile(attachmentId: string, taskId: string): void;
