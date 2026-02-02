@@ -1,16 +1,17 @@
 import { userList, taskList } from "@main";
-import { TaskStatus } from "@models/tasks";
+import { TaskStatus } from "utils";
+import type { TTaskStatus } from "utils";
 
 type TasksByStatus = {
-    [key in TaskStatus]: number;
+    [key in TTaskStatus]: number;
 };
 
 export function countUsers(): number {
-    return userList.getAllUsers().length;
+    return userList.getAll().length;
 }
 
 export function countTasks(): number {
-    return taskList.getAllTasks().length;
+    return taskList.getAll().length;
 }
 
 export function countCompletedTasks(): number {
@@ -23,7 +24,7 @@ export function countActiveTasks(): number {
 
 export function tasksByStatus(): TasksByStatus {
     return Object.values(TaskStatus)
-        .filter((v): v is TaskStatus => typeof v === 'number') // Type guard to ensure we only have indexes of TaskStatus
+        .filter((v): v is TTaskStatus => typeof v === 'number') // Type guard to ensure we only have indexes of TaskStatus
         .reduce((acc, status) => {
             acc[status] = taskList.getTasksByStatus(status).length;
             return acc;

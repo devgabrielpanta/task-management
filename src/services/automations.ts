@@ -1,5 +1,6 @@
-import type { Task } from "@models/tasks";
-import { TaskStatus } from "@models/tasks";
+import { Task } from "@models/tasks";
+import { TaskStatus } from "utils";
+import type { TTaskStatus } from "utils";
 import { logList, loggedUser, notificationList, taskList, assignmentList } from "@main";
 import type { User } from "@models/users";
 
@@ -17,7 +18,15 @@ export function applyUserRules(user: User) {
 // ###########################################################
 
 function taskStatusRules(task: Task) {
-    const status: TaskStatus = task.getTask().status;
+    const taskData = task.get();
+    let status;
+
+    if ("status" in taskData) {
+        status = taskData.status as TTaskStatus;
+    } else {
+        return;
+    }
+
 
     switch (status) {
         case TaskStatus.COMPLETED:
@@ -32,7 +41,7 @@ function taskStatusRules(task: Task) {
             notificationList.notifyUser({
                 user: loggedUser,
                 task,
-                message: `Task ${task.getTask().id} is blocked.`,
+                message: `Task is blocked.`,
                 closed: false,
             })
             break;
@@ -44,7 +53,7 @@ function taskStatusRules(task: Task) {
 
 function taskDeadlineRules(task: Task) {
     if (task.isExpired()) {
-        taskList.updateTask(task.id, { status: TaskStatus.BLOCKED });
+        task.setStatus(TaskStatus.BLOCKED);
     }
 }
 
@@ -54,14 +63,13 @@ function taskDeadlineRules(task: Task) {
 // ###########################################################
 
 function inactiveUserRules(user: User) {
-    const userData = user.getUser();
-    if (userData.active) return
+    if (user.isActive()) return
 
     const assignedTasks = assignmentList.getUserAssignments(user);
     if (assignedTasks.length === 0) return;
 
     assignedTasks.forEach(assignment => {
-        taskList.removeTask(assignment.task.id);
+        taskList.delete(assignment.task.getId());
     });
 
     assignmentList.deleteUserAssignments(user);
