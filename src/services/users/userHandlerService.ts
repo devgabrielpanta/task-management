@@ -1,19 +1,19 @@
-import type { TUpdateUser } from "@models/users";
+import { User } from "@models/users";
 import { Permissions, userListPermissions } from "@models/permissions";
 import { loggedUser, userList, logList, notificationList } from "@main";
-import { UserRole } from "@models/users";
+import { UserRole } from "utils";
 
 // (examples) Functions to handle user actions
 export function handleCreateUser() {
     try {
         // Request permission to create a user
-        Permissions.can(userListPermissions, "addUser", loggedUser.getRole());
+        Permissions.can(userListPermissions, "add", loggedUser.getRole());
 
         // Replace the following with actual logic
-        userList.addUser({ name: "New User", email: "newuser@example.com", role: UserRole.MEMBER });
+        userList.add(new User({ name: "New User", email: "newuser@example.com", role: UserRole.MEMBER }));
         logList.addLog({
             user: loggedUser,
-            action: "addUser",
+            action: "add",
             success: true,
         });
 
@@ -27,7 +27,7 @@ export function handleCreateUser() {
         console.error("Error handling user creation:", error);
         logList.addLog({
             user: loggedUser,
-            action: "addUser",
+            action: "add",
             success: false,
         });
 
@@ -36,16 +36,16 @@ export function handleCreateUser() {
     }
 }
 
-export function handleEditUser(userId: string, updatedUser: TUpdateUser) {
+export function handleEditUser(userId: string, updatedUser: Partial<User>) {
     try {
         // Request permission to edit a user
-        Permissions.can(userListPermissions, "updateUser", loggedUser.getRole());
+        Permissions.can(userListPermissions, "update", loggedUser.getRole());
 
         // Replace the following with actual logic
-        userList.updateUser(userId, updatedUser);
+        userList.update(userId, updatedUser);
         logList.addLog({
             user: loggedUser,
-            action: "updateUser",
+            action: "update",
             success: true,
         });
 
@@ -60,7 +60,7 @@ export function handleEditUser(userId: string, updatedUser: TUpdateUser) {
         console.error("Error handling user editing:", error);
         logList.addLog({
             user: loggedUser,
-            action: "updateUser",
+            action: "update",
             success: false,
         });
         // Replace the following with actual error handling UI
@@ -71,13 +71,13 @@ export function handleEditUser(userId: string, updatedUser: TUpdateUser) {
 export function handleDeleteUser(userId: string) {
     try {
         // Request permission to delete a user
-        Permissions.can(userListPermissions, "removeUser", loggedUser.getRole());
+        Permissions.can(userListPermissions, "delete", loggedUser.getRole());
 
         // Replace the following with actual logic
-        userList.removeUser(userId);
+        userList.delete(userId);
         logList.addLog({
             user: loggedUser,
-            action: "removeUser",
+            action: "delete",
             success: true,
         });
 
@@ -92,7 +92,7 @@ export function handleDeleteUser(userId: string) {
         console.error("Error handling user deletion:", error);
         logList.addLog({
             user: loggedUser,
-            action: "removeUser",
+            action: "delete",
             success: false,
         });
 

@@ -1,12 +1,11 @@
+import type { IBaseListActions } from "types/globals";
 import type { User } from "@models/users";
 
-export interface IUserListActions {
+export interface IUserListActions extends IBaseListActions<User> {
     // ###########################################################
     //                  GET USERS METHODS
     // ###########################################################
 
-    getUserById(userId: string): User | undefined;
-    getAllUsers(): User[];
     getActiveUsers(): User[];
     getInactiveUsers(): User[];
     queryUser(query: unknown): User[];
@@ -15,9 +14,6 @@ export interface IUserListActions {
     //                CREATE, UPDATE, DELETE METHODS
     // ###########################################################
 
-    addUser(params: ICreateUser): void;
-    removeUser(userId: string): void;
-    updateUser(userId: string, updatedUser: TUpdateUser): void;
     toggleActive(userId: string): void;
 
     // ###########################################################

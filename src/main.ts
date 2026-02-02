@@ -12,9 +12,9 @@ export const notificationList = new NotificationList();
 export const assignmentList = new AssignmentList();
 
 // Data Mockup
-userList.addUser({
+userList.add(new User({
     name: "Alice Johnson",
     email: "alice@example.com",
     role: UserRole.ADMIN
-});
-export const loggedUser: User = userList.getAllUsers()[0];
+}));
+export const loggedUser: User = userList.getAll()[0];

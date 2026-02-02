@@ -1,4 +1,4 @@
-import type { TId, IBaseEntity } from "types/globals";
+import type { TId, IBaseEntity, IBaseModelActions } from "types/globals";
 import type { TUserRole } from "utils";
 
 export interface ICreateUser {
@@ -13,12 +13,10 @@ export interface IUserBase extends ICreateUser, IBaseEntity {
 
 export type TUpdateUser = Omit<Partial<IUserBase>, 'id' | 'createdAt' | 'updatedAt'>;
 
-export interface IUserActions {
+export interface IUserActions extends IBaseModelActions {
     // ###########################################################
     //                  CRUD METHODS
     // ###########################################################
-    getUser(): IUserBase;
-    updateUser(updatedUser: TUpdateUser): void;
     handleQuery(query: unknown): boolean;
 
     // ###########################################################
