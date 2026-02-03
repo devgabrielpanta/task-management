@@ -1,27 +1,25 @@
-import type { TId } from "types/globals";
-import { Task } from "@models/tasks";
+type TRating = 1 | 2 | 3 | 4 | 5;
 
+export class RatingSystem<T> {
+    private ratings: Map<T, TRating[]> = new Map();
 
-export class RatingSystem {
-    private ratings: Map<TId, number[]> = new Map();
-
-    rate(item: Task, value: number): void {
-        if (!this.ratings.has(item.getId())) {
-            this.ratings.set(item.getId(), []);
+    rate(item: T, value: TRating): void {
+        if (!this.ratings.has(item)) {
+            this.ratings.set(item, []);
         }
-        this.ratings.get(item.getId())!.push(value);
+        this.ratings.get(item)!.push(value);
     }
 
-    getAverage(item: Task): number {
-        const itemRatings = this.ratings.get(item.getId());
+    getAverage(item: T): TRating | null {
+        const itemRatings = this.ratings.get(item);
         if (!itemRatings || itemRatings.length === 0) {
-            return 0;
+            return null;
         }
-        const total = itemRatings.reduce((sum, rating) => sum + rating, 0);
-        return total / itemRatings.length;
+        const total = itemRatings.reduce((acc, rating) => acc + rating, 0);
+        return Math.round(total / itemRatings.length) as TRating;
     }
 
-    getRatings(item: Task): number[] {
-        return this.ratings.get(item.getId()) || [];
+    getRatings(item: T): TRating[] {
+        return this.ratings.get(item) || [];
     }
 }

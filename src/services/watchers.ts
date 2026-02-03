@@ -1,23 +1,22 @@
-import { Task } from "@models/tasks";
 import { User } from "@models/users";
 
-export class WatcherSystem {
-    private watchers: Map<Task, Set<User>> = new Map();
+export class WatcherSystem<T> {
+    private watchers: Map<T, Set<User>> = new Map();
 
-    watch(target: Task, user: User): void {
+    watch(target: T, user: User): void {
         if (!this.watchers.has(target)) {
             this.watchers.set(target, new Set());
         }
         this.watchers.get(target)!.add(user);
     }
 
-    unwatch(target: Task, user: User): void {
+    unwatch(target: T, user: User): void {
         if (this.watchers.has(target)) {
             this.watchers.get(target)!.delete(user);
         }
     }
 
-    getWatchers(target: Task): User[] {
-        return this.watchers.has(target) ? Array.from(this.watchers.get(target)!) : [];
+    getWatchers(target: T): User[] {
+        return Array.from(this.watchers.get(target) || []);
     }
 }
