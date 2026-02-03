@@ -18,3 +18,27 @@ userList.add(new User({
     role: UserRole.ADMIN
 }));
 export const loggedUser: User = userList.getAll()[0];
+
+
+// SystemConfig
+// IdGenerator
+// SystemLogger
+// GlobalValidators
+// BusinessRules
+// Funções a chamar obrigatoriamente:
+
+// SystemConfig.setEnvironment()
+// SystemConfig.getInfo()
+// IdGenerator.generate()
+// SystemLogger.log()
+// SystemLogger.getLogs()
+// GlobalValidators.isValidEmail()
+// BusinessRules.canTaskBeCompleted()
+
+// IMPLEMENTAR UM FLUXO REAL:
+// - configurar sistema
+// - gerar IDs
+// - validar dados
+// - aplicar regras
+// - registar logs
+// - imprimir resultados
