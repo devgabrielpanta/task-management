@@ -24,6 +24,7 @@ export const taskPermissions: PermissionMap<ITaskActions> = {
     getStatus: allUsers,
     setStatus: membersOnly,
     isCompleted: allUsers,
+    completedWhen: allUsers,
     markAsCompleted: membersOnly,
 
     // Deadline methods

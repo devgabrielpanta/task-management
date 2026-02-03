@@ -100,6 +100,11 @@ export class Task extends BaseEntity {
         return this.completed;
     }
 
+    public completedWhen(): Date | undefined {
+        return this.completedAt;
+    }
+
+
     public markAsCompleted(): void {
         this.completed = true;
         this.completedAt = new Date();

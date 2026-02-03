@@ -35,6 +35,7 @@ export interface ITaskActions extends IBaseModelActions {
     getStatus(): TaskStatus;
     setStatus(newStatus: TaskStatus): void;
     isCompleted(): boolean;
+    completedWhen(): Date | undefined;
     markAsCompleted(): void;
 
     // ###########################################################
