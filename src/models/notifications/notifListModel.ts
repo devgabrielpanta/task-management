@@ -13,11 +13,11 @@ export class NotificationList implements INotificationListActions {
     notifyUser(notification: ICreateNotification): void {
         this.addNotification(notification);
 
-        const user = userList.getUserById(notification.user.id);
+        const user = userList.getById(notification.user.getId());
         if (!user) return;
-        const userData = user.getUser();
+        const userData = user.get();
 
-        alert(`Notification for ${userData.name}: ${notification.message}`);
+        alert(`Notification for ${"name" in userData ? userData.name : "Unknown User"}: ${notification.message}`);
     }
 
     // ###########################################################
@@ -30,13 +30,13 @@ export class NotificationList implements INotificationListActions {
 
     getNotifByUser(userId: string): TNotification[] {
         return this.notifications
-            .filter((notif) => notif.getNotification().user.id === userId)
+            .filter((notif) => notif.getNotification().user.getId() === userId)
             .map((notif) => notif.getNotification());
     };
 
     getNotifByTask(taskId: string): TNotification[] {
         return this.notifications
-            .filter((notif) => notif.getNotification().task?.id === taskId)
+            .filter((notif) => notif.getNotification().task?.getId() === taskId)
             .map((notif) => notif.getNotification());
     };
 

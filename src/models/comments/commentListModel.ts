@@ -25,13 +25,13 @@ export class CommentList implements ICommentListActions {
 
     getCommentsByUser(userId: string): TComment[] {
         return this.comments
-            .filter(comment => comment.user.id === userId)
+            .filter(comment => comment.user.getId() === userId)
             .map(comment => comment.getComment());
     };
 
     getCommentsByTask(taskId: string): TComment[] {
         return this.comments
-            .filter(comment => comment.task.id === taskId)
+            .filter(comment => comment.task.getId() === taskId)
             .map(comment => comment.getComment());
     };
 

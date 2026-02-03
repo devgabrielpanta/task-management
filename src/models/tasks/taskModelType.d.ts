@@ -1,5 +1,5 @@
 import type { Attachment } from "@models/attachments";
-import type { TId, IBaseEntity } from "../../types/globals";
+import type { TId, IBaseEntity, IBaseModelActions } from "../../types/globals";
 import { TaskStatus, TaskPriority, TaskCategory } from "@models/tasks";
 
 export interface ICreateTask {
@@ -19,15 +19,13 @@ export interface ITaskBase extends IBaseEntity, ICreateTask {
 
 export type TUpdateTask = Omit<Partial<ITaskBase>, 'id' | 'createdAt' | 'updatedAt'>;
 
-export interface ITaskActions {
+export interface ITaskActions extends IBaseModelActions {
     // ###########################################################
     //                  CRUD METHODS
     // ###########################################################
 
     attachFile(attachment: Attachment): void;
     detachFile(attachmentId: TId): void;
-    getTask(): ITaskBase;
-    updateTask(taskId: string, updatedTask: TUpdateTask): void;
     handleQuery(query: unknown): boolean;
 
     // ###########################################################
@@ -37,6 +35,7 @@ export interface ITaskActions {
     getStatus(): TaskStatus;
     setStatus(newStatus: TaskStatus): void;
     isCompleted(): boolean;
+    completedWhen(): Date | undefined;
     markAsCompleted(): void;
 
     // ###########################################################

@@ -10,11 +10,11 @@ export function backupAll() {
 }
 
 export function backupUsers(): IUser[] {
-    return userList.getAllUsers();
+    return userList.getAll();
 }
 
 export function backupTasks(): ITask[] {
-    return taskList.getAllTasks();
+    return taskList.getAll();
 }
 
 export function backupAssignments(): TAssignment[] {

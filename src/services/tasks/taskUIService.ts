@@ -5,7 +5,7 @@ import { loggedUser } from "@main";
 export function startCreateTask() {
     try {
         // Request permission to create a task
-        Permissions.can(taskListPermissions, "addTask", loggedUser.getRole());
+        Permissions.can(taskListPermissions, "add", loggedUser.getRole());
 
         // Replace the following with actual HTML/CSS
         const taskForm = document.createElement("form");
@@ -21,7 +21,7 @@ export function startCreateTask() {
 export function startEditTask() {
     try {
         // Request permission to edit a task
-        Permissions.can(taskListPermissions, "updateTask", loggedUser.getRole());
+        Permissions.can(taskListPermissions, "update", loggedUser.getRole());
 
         // Replace the following with actual HTML/CSS
         const taskForm = document.createElement("form");
@@ -37,7 +37,7 @@ export function startEditTask() {
 export function startDeleteTask() {
     try {
         // Request permission to delete a task
-        Permissions.can(taskListPermissions, "removeTask", loggedUser.getRole());
+        Permissions.can(taskListPermissions, "delete", loggedUser.getRole());
 
         // Replace the following with actual HTML/CSS
         const taskForm = document.createElement("form");

@@ -1,7 +1,8 @@
 import type { PermissionMap } from "@models/permissions";
 import type { ITaskActions, ITaskListActions } from "@models/tasks";
 import type { IUserActions, IUserListActions } from "@models/users";
-import { UserRole } from "@models/users";
+import { UserRole } from "utils";
+import type { TUserRole } from "utils";
 
 const allUsers = [UserRole.ADMIN, UserRole.MANAGER, UserRole.MEMBER, UserRole.VIEWER];
 const membersOnly = [UserRole.ADMIN, UserRole.MANAGER, UserRole.MEMBER];
@@ -12,16 +13,18 @@ const managersAndAdmins = [UserRole.ADMIN, UserRole.MANAGER];
 // ###########################################################
 export const taskPermissions: PermissionMap<ITaskActions> = {
     // CRUD methods
+    get: allUsers,
+    getId: allUsers,
+    update: membersOnly,
     attachFile: membersOnly,
     detachFile: membersOnly,
-    getTask: allUsers,
-    updateTask: membersOnly,
     handleQuery: allUsers,
 
     // Status methods
     getStatus: allUsers,
     setStatus: membersOnly,
     isCompleted: allUsers,
+    completedWhen: allUsers,
     markAsCompleted: membersOnly,
 
     // Deadline methods
@@ -45,7 +48,8 @@ export const taskPermissions: PermissionMap<ITaskActions> = {
 // ###########################################################
 export const taskListPermissions: PermissionMap<ITaskListActions> = {
     // GET TASKS METHODS
-    getAllTasks: allUsers,
+    getAll: allUsers,
+    getById: allUsers,
     getExpiredTasks: allUsers,
     getCompletedTasks: allUsers,
     getPendingTasks: allUsers,
@@ -54,9 +58,9 @@ export const taskListPermissions: PermissionMap<ITaskListActions> = {
     queryTasks: allUsers,
 
     // CREATE, UPDATE, DELETE METHODS
-    addTask: membersOnly,
-    removeTask: membersOnly,
-    updateTask: membersOnly,
+    add: membersOnly,
+    delete: membersOnly,
+    update: membersOnly,
     cleanCompletedTasks: managersAndAdmins,
     attachFile: membersOnly,
     detachFile: membersOnly,
@@ -82,8 +86,9 @@ export const taskListPermissions: PermissionMap<ITaskListActions> = {
 // ###########################################################
 export const userPermissions: PermissionMap<IUserActions> = {
     // CRUD METHODS
-    getUser: allUsers,
-    updateUser: managersAndAdmins,
+    get: allUsers,
+    getId: allUsers,
+    update: managersAndAdmins,
     handleQuery: allUsers,
 
     // STATUS METHODS
@@ -100,16 +105,16 @@ export const userPermissions: PermissionMap<IUserActions> = {
 // ###########################################################
 export const userListPermissions: PermissionMap<IUserListActions> = {
     // GET USERS METHODS
-    getUserById: allUsers,
-    getAllUsers: allUsers,
+    getById: allUsers,
+    getAll: allUsers,
     getActiveUsers: allUsers,
     getInactiveUsers: allUsers,
     queryUser: allUsers,
 
     // CREATE, UPDATE, DELETE METHODS
-    addUser: managersAndAdmins,
-    removeUser: managersAndAdmins,
-    updateUser: managersAndAdmins,
+    add: managersAndAdmins,
+    delete: managersAndAdmins,
+    update: managersAndAdmins,
     toggleActive: managersAndAdmins,
 
     // ROLE METHODS
@@ -123,7 +128,7 @@ export class Permissions {
     static can<T>(
         permissions: PermissionMap<T>,
         action: keyof T,
-        role: UserRole
+        role: TUserRole
     ) {
         const allowedRoles = permissions[action];
 
@@ -132,7 +137,7 @@ export class Permissions {
         }
 
         if (!allowedRoles.includes(role)) {
-            throw new Error(`Role "${UserRole[role]}" does not have permission to perform action "${String(action)}".`);
+            throw new Error(`Role "${UserRole}" does not have permission to perform action "${String(action)}".`);
         }
     }
 

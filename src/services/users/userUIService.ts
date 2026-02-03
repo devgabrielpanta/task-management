@@ -5,7 +5,7 @@ import { loggedUser } from "@main";
 export function startCreateUser() {
     try {
         // Request permission to create a user
-        Permissions.can(userListPermissions, "addUser", loggedUser.getRole());
+        Permissions.can(userListPermissions, "add", loggedUser.getRole());
 
         // Replace the following with actual HTML/CSS
         const userForm = document.createElement("form");
@@ -21,7 +21,7 @@ export function startCreateUser() {
 export function startEditUser() {
     try {
         // Request permission to edit a user
-        Permissions.can(userListPermissions, "updateUser", loggedUser.getRole());
+        Permissions.can(userListPermissions, "update", loggedUser.getRole());
 
         // Replace the following with actual HTML/CSS
         const userForm = document.createElement("form");
@@ -37,7 +37,7 @@ export function startEditUser() {
 export function startDeleteUser() {
     try {
         // Request permission to delete a user
-        Permissions.can(userListPermissions, "removeUser", loggedUser.getRole());
+        Permissions.can(userListPermissions, "delete", loggedUser.getRole());
 
         // Replace the following with actual HTML/CSS
         const userForm = document.createElement("form");
